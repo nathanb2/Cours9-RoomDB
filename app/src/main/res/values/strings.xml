@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cours9-RoomDB</string>
+    <string name="change_name">Change name</string>
 </resources>

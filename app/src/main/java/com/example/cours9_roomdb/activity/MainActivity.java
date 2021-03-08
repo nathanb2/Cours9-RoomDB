@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.example.cours9_roomdb.R;
 import com.example.cours9_roomdb.model.User;
 import com.example.cours9_roomdb.repository.UserRepository;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,24 +22,20 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.AM_tv);
         UserRepository userRepository = new UserRepository(this.getApplication());
 
-        Runnable runnable = new Runnable() {
-            public void run() {
-//                userRepository.createUser(new User("Patrick", 25));
-
-                User user = userRepository.getAllUsers().get(0);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        textView.setText(user.getName());
-                    }
-                });
-
+        userRepository.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                // Update the UI, in this case, a TextView.
+                textView.setText(users.get(0).getName());
             }
-        };
+        });
 
-        Thread thread = new Thread(runnable);
-        thread.start();
+
+        findViewById(R.id.AM_change_name).setOnClickListener(v -> {
+            User user = userRepository.getAllUsers().getValue().get(0);
+            user.setName("Nathan");
+            userRepository.updateUser(user);
+        });
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.cours9_roomdb.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -27,7 +28,7 @@ public interface UserDao {
     void removeUser(User user);
 
     @Query("SELECT * FROM user")
-    List<User> getAllUsers();
+    LiveData<List<User>> getAllUsers();
 
     @Query("SELECT * FROM user where age >= 18")
     List<User> getMajorUsers();

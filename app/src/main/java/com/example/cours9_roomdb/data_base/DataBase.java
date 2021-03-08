@@ -31,6 +31,7 @@ public abstract class DataBase extends RoomDatabase {
                             DataBase.class, "database")
                             .addCallback(sOnOpenCallback)
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .build();
                 }
             }
