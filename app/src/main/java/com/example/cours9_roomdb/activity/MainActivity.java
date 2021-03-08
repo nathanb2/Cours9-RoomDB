@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         Runnable runnable = new Runnable() {
             public void run() {
-                userRepository.createUser(new User("Patrick", 25));
+//                userRepository.createUser(new User("Patrick", 25));
 
                 User user = userRepository.getAllUsers().get(0);
 
