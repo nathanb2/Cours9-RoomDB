@@ -10,40 +10,42 @@ import com.example.cours9_roomdb.model.User;
 
 import java.util.List;
 
+/**
+ * Voire cours-8 (on remplace juste le UserApiService simple de cours-8 par une autre interface annote pour Room qui est le UserDao)
+ */
 public class UserRepository {
 
     UserDao userDao;
-    private LiveData<List<User>> mUsers;
 
-    public UserRepository(Application application){
+    public UserRepository(Application application) {
         DataBase dataBase = DataBase.getDatabase(application);
         userDao = dataBase.userDao();
     }
 
-    public User getUser(long id){
+    public User getUser(long id) {
         return userDao.getUser(id);
     }
 
-    public void createUser(User user){
+    public void createUser(User user) {
         userDao.createUser(user);
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
         userDao.updateUser(user);
     }
 
-    public void removeUser(User user){
+    public void removeUser(User user) {
         userDao.removeUser(user);
     }
 
-    public LiveData<List<User>> getAllUsers(){
-        if (mUsers == null){
-            mUsers = userDao.getAllUsers();
-        }
-        return mUsers;
+    /**
+     * @return userDao.getAllUsers() qui est lui meme un liveData
+     */
+    public LiveData<List<User>> getAllUsers() {
+        return userDao.getAllUsers();
     }
 
-    public List<User> getMajorUsers(){
+    public List<User> getMajorUsers() {
         return userDao.getMajorUsers();
     }
 }

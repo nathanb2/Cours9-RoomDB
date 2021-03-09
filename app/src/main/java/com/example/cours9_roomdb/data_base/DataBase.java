@@ -14,12 +14,21 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.cours9_roomdb.dao.UserDao;
 import com.example.cours9_roomdb.model.User;
 
+/**
+ * Class representant notre DataBase grace a l'annotation @Database et l'heritage de la class RoomDataBase
+ * entities permet de declarer les differentes tables de notres Database,
+ * la version seera a incrementer si des changements structurels sont effectuer comme modification ou ajout de table afin que room effectue la migration
+ * Class sous DesignPattern SingleTon, on peut en creer qu'une instance car on veut une seul DB pour l'ensemble du projet
+ */
 @Database(entities = {User.class}, version = 1)
 public abstract class DataBase extends RoomDatabase {
-//    public abstract WordDao wordDao();
 
     private static DataBase INSTANCE;
 
+    /**
+     * @return une sorte d'implementation de l'interface userDao dasn notre class DataBase qui permetra
+     * d'appeler les differentes fonctions de notre DAO sur la DataBase et d'y executer les fonctions (leur equivalent en expression SQL)
+     */
     public abstract UserDao userDao();
 
     public static DataBase getDatabase(final Context context) {
@@ -29,10 +38,10 @@ public abstract class DataBase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(
                             context.getApplicationContext(),
                             DataBase.class, "database")
-                            .addCallback(sOnOpenCallback)
+                            .addCallback(sOnOpenCallback)//permet d'ajouter un callback a l'ouverture de la DB voire ci-dessous
                             .fallbackToDestructiveMigration()
-                            .allowMainThreadQueries()
-                            .build();
+                            .allowMainThreadQueries()//permety d'effectuer des request a la DB sur le MainThread, peut causer des problemes de performances
+                            .build();//retourne l'instance de la DB avec les differentes fonctionnalites ajoutees dans le builder ci-dessu
                 }
             }
         }
@@ -52,6 +61,7 @@ public abstract class DataBase extends RoomDatabase {
                     Cursor cursor = db.query(count, null);
                     cursor.moveToFirst();
                     int cursorCount = cursor.getInt(0);
+                    //permet de verifier si la table est vide et donc de la peupler qu'a la creation et non a toute ouverture de la DB
                     if (cursorCount <= 0) {
                         for (int i = 0; i < 10; i++) {
                             ContentValues contentValues = new ContentValues();

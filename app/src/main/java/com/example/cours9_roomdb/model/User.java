@@ -3,9 +3,17 @@ package com.example.cours9_roomdb.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Grace a l'annotation Entity Room pourra creer une Table de DataBase a partire du model User
+ */
 @Entity
 public class User {
 
+    /**
+     * indique a Room, lors de la creation d'une row user de genrer automatiquement une valeur pour la column id
+     * Qui de plus est la primaryKey de la table User donc l'identifiant unique d'une row de User
+     * (permet de differencie une row d'une autre et est donc utilise egalement comme identifiant pour etablire des relations dans la DB)
+     */
     @PrimaryKey(autoGenerate=true)
     private long id;
     private String name;
